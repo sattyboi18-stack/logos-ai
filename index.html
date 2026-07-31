@@ -569,8 +569,15 @@ footer { padding:24px 40px; border-top:1px solid rgba(255,255,255,0.07); display
 const bg = document.getElementById('heroBg');
 setTimeout(() => bg.classList.add('loaded'), 100);
 window.addEventListener('scroll', () => { bg.style.transform = `scale(1) translateY(${window.scrollY * 0.22}px)`; }, {passive:true});
-function subHero(e) { e.preventDefault(); document.getElementById('hero-input').value=''; const s=document.getElementById('heroSuccess'); s.style.display='block'; setTimeout(()=>s.style.display='none',5000); }
-function subCta(e) { e.preventDefault(); document.getElementById('cta-input').value=''; const s=document.getElementById('ctaSuccess'); s.style.display='block'; setTimeout(()=>s.style.display='none',5000); }
+function submitToTally(email) {
+  const d = document.createElement('div');
+  d.innerHTML = '<form method="POST" action="https://tally.so/r/J9bZy4" target="tally_frame" style="display:none"><input name="email" value="'+email+'"/><input type="submit"/></form><iframe name="tally_frame" style="display:none"></iframe>';
+  document.body.appendChild(d);
+  d.querySelector('form').submit();
+  setTimeout(() => d.remove(), 3000);
+}
+function subHero(e) { e.preventDefault(); const email = document.getElementById('hero-input').value; submitToTally(email); document.getElementById('hero-input').value=''; const s=document.getElementById('heroSuccess'); s.style.display='block'; setTimeout(()=>s.style.display='none',5000); }
+function subCta(e) { e.preventDefault(); const email = document.getElementById('cta-input').value; submitToTally(email); document.getElementById('cta-input').value=''; const s=document.getElementById('ctaSuccess'); s.style.display='block'; setTimeout(()=>s.style.display='none',5000); }
 document.querySelectorAll('a[href^="#"]').forEach(a => { a.addEventListener('click', e => { const t=document.querySelector(a.getAttribute('href')); if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'});} }); });
 
 // Count-up animation for the score
